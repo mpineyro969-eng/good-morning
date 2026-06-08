@@ -84,12 +84,17 @@
             100% { transform: rotate(0deg) translate(0,0); }
         }
 
-        .more-btn {
+        .more-btn, .sound-btn {
             position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
-            padding: 18px 60px; font-size: 1.7rem;
+            padding: 18px 60px; font-size: 1.6rem;
             background: linear-gradient(45deg, #4caf50, #8bc34a);
             color: white; border: none; border-radius: 50px;
             z-index: 300; box-shadow: 0 10px 30px rgba(0,0,0,0.3); font-weight: bold;
+        }
+
+        .sound-btn {
+            bottom: 100px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8c00);
         }
 
         .confetti { position: absolute; z-index: 30; animation: fall linear forwards; }
@@ -111,6 +116,7 @@
     <div class="post" id="post">
         <h1 class="greeting">Hope you have a nice day ☀️</h1>
         <button class="more-btn" id="moreBtn">MORE CATS 🐱</button>
+        <button class="sound-btn" id="soundBtn" style="display:none;">🔊 TURN ON SOUND</button>
     </div>
 
     <div class="cats" id="cats"></div>
@@ -137,7 +143,7 @@
             const video = document.createElement('video');
             video.src = VIDEO_URL;
             video.loop = true;
-            video.muted = true;           // Muted for reliable autoplay on iPhone
+            video.muted = true;           // Starts muted
             video.playsInline = true;
             video.autoplay = true;
             div.appendChild(video);
@@ -226,11 +232,27 @@
                 spawnCats(28);
                 confettiBurst();
                 setInterval(confettiBurst, 2200);
+                
+                // Show sound button
+                setTimeout(() => {
+                    document.getElementById('soundBtn').style.display = 'block';
+                }, 1500);
             }, 1700);
         }
 
         document.getElementById('openBtn').addEventListener('click', triggerExplosion);
         document.getElementById('moreBtn').addEventListener('click', () => { spawnCats(22); confettiBurst(); });
+
+        // Sound button
+        document.getElementById('soundBtn').addEventListener('click', function() {
+            const videos = document.querySelectorAll('video');
+            videos.forEach(v => {
+                v.muted = false;
+                v.play();
+            });
+            this.textContent = "🔊 SOUND ON!";
+            this.style.background = "#4caf50";
+        });
     </script>
 </body>
 </html>
