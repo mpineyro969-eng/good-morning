@@ -137,7 +137,7 @@
             const video = document.createElement('video');
             video.src = VIDEO_URL;
             video.loop = true;
-            video.muted = false;
+            video.muted = true;           // Muted for reliable autoplay on iPhone
             video.playsInline = true;
             video.autoplay = true;
             div.appendChild(video);
