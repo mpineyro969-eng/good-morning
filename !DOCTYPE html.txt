@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Good Morning Surprise! 🐱</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Comic+Neue:wght@700&display=swap');
+
+        :root { --bg: #c8f7c5; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            touch-action: manipulation;
+            user-select: none;
+        }
+
+        .initial {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .title { 
+            font-family: 'Comic Neue', cursive;
+            font-size: clamp(3rem, 12vw, 6rem);
+            text-align: center;
+            text-shadow: 5px 5px 0 #fff;
+            animation: bounce 2s infinite;
+        }
+
+        .subtitle {
+            font-size: clamp(1.3rem, 5vw, 1.8rem);
+            margin: 2rem 0 4rem;
+            text-align: center;
+        }
+
+        .btn {
+            padding: 22px 80px;
+            font-size: clamp(1.7rem, 6vw, 2.3rem);
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: bold;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            cursor: pointer;
+        }
+
+        @keyframes bounce { 50% { transform: translateY(-25px); } }
+
+        .explosion { position: absolute; inset: 0; z-index: 200; display: none; pointer-events: none; }
+        .flash { position: absolute; inset: 0; background: white; opacity: 0; }
+
+        .fire { 
+            position: absolute; 
+            border-radius: 50%; 
+            background: radial-gradient(circle, #ffff00, #ff4400); 
+            box-shadow: 0 0 60px #ff8800;
+            animation: boom 1.6s forwards;
+        }
+        @keyframes boom {
+            0% { transform: scale(0.2); opacity: 1; }
+            50% { transform: scale(3); }
+            100% { transform: scale(0.1) translate(var(--x), var(--y)); opacity: 0; }
+        }
+
+        .post {
+            position: absolute;
+            inset: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 15vh;
+            z-index: 50;
+        }
+
+        .greeting {
+            font-family: 'Comic Neue', cursive;
+            font-size: clamp(2.6rem, 10vw, 4.5rem);
+            text-align: center;
+            text-shadow: 4px 4px 0 #fff;
+        }
+
+        .cats { position: absolute; inset: 0; overflow: hidden; z-index: 10; }
+        .cat {
+            position: absolute;
+            border: 6px solid white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            animation: chaos 12s linear infinite;
+        }
+        .cat video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @keyframes chaos {
+            0%   { transform: rotate(0deg) translate(0,0); }
+            25%  { transform: rotate(35deg) translate(60px, -80px); }
+            50%  { transform: rotate(-25deg) translate(90px, 50px); }
+            75%  { transform: rotate(20deg) translate(-70px, -60px); }
+            100% { transform: rotate(0deg) translate(0,0); }
+        }
+
+        .more-btn {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 18px 55px;
+            font-size: 1.6rem;
+            background: linear-gradient(45deg, #4caf50, #8bc34a);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            z-index: 300;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            font-weight: bold;
+        }
+
+        .confetti {
+            position: absolute;
+            z-index: 30;
+            animation: fall linear forwards;
+        }
+        @keyframes fall {
+            to { transform: translateY(120vh) rotate(900deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="initial" id="initial">
+        <h1 class="title">Good Morning 🌸</h1>
+        <p class="subtitle">Click for a surprise… hurry up 👀</p>
+        <button class="btn" id="openBtn">OPEN SURPRISE</button>
+    </div>
+
+    <div class="explosion" id="explosion">
+        <div class="flash" id="flash"></div>
+    </div>
+
+    <div class="post" id="post">
+        <h1 class="greeting">Hope you have a nice day ☀️</h1>
+        <button class="more-btn" id="moreBtn">MORE CATS 🐱</button>
+    </div>
+
+    <div class="cats" id="cats"></div>
+
+    <script>
+        // === CHANGE THIS TO YOUR UPLOADED VIDEO URL ===
+        const VIDEO_URL = "https://your-video-link-here.mp4";   // ←←← PUT YOUR UPLOADED DANCING KITTEN URL HERE
+
+        let catCount = 0;
+
+        function createCat() {
+            if (catCount > 70) return;
+            const container = document.getElementById('cats');
+            const div = document.createElement('div');
+            div.className = 'cat';
+            
+            const size = 110 + Math.random() * 130;
+            div.style.width = size + 'px';
+            div.style.height = size + 'px';
+            div.style.left = Math.random() * 100 + 'vw';
+            div.style.top = Math.random() * 80 + 'vh';
+            div.style.animationDuration = (8 + Math.random() * 12) + 's';
+            div.style.animationDelay = '-' + Math.random() * 10 + 's';
+
+            const video = document.createElement('video');
+            video.src = VIDEO_URL;
+            video.loop = true;
+            video.muted = true;
+            video.playsInline = true;
+            video.autoplay = true
