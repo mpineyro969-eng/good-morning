@@ -27,8 +27,8 @@
         }
         .subtitle { font-size: clamp(1.4rem, 5.5vw, 1.9rem); margin: 2rem 0 4rem; text-align: center; max-width: 90%; }
         .btn {
-            padding: 24px 80px;
-            font-size: clamp(1.8rem, 7vw, 2.4rem);
+            padding: 26px 80px;
+            font-size: clamp(1.7rem, 7vw, 2.3rem);
             background: linear-gradient(45deg, #ff6b6b, #ffd93d);
             color: white;
             border: none;
@@ -101,7 +101,7 @@
     <div class="initial" id="initial">
         <h1 class="title">Good Morning 🌸</h1>
         <p class="subtitle">Click for a surprise… hurry up 👀</p>
-        <button class="btn" id="openBtn">OPEN SURPRISE</button>
+        <button class="btn" id="openBtn">JUST CLICK HERE FOR A BETTER DAY</button>
     </div>
 
     <div class="explosion" id="explosion">
@@ -122,116 +122,4 @@
         let catCount = 0;
 
         function createCat() {
-            if (catCount > 70) return;
-            const container = document.getElementById('cats');
-            const div = document.createElement('div');
-            div.className = 'cat';
-            const size = 105 + Math.random() * 140;
-            div.style.width = size + 'px';
-            div.style.height = size + 'px';
-            div.style.left = Math.random() * 105 - 10 + 'vw';
-            div.style.top = Math.random() * 85 + 'vh';
-            div.style.animationDuration = (7 + Math.random() * 14) + 's';
-            div.style.animationDelay = '-' + Math.random() * 12 + 's';
-
-            const video = document.createElement('video');
-            video.src = VIDEO_URL;
-            video.loop = true;
-            video.muted = false;
-            video.playsInline = true;
-            video.autoplay = true;
-            div.appendChild(video);
-            container.appendChild(div);
-            video.play().catch(() => {});
-            catCount++;
-        }
-
-        function createModernGif() {
-            const container = document.getElementById('cats');
-            const div = document.createElement('div');
-            div.className = 'modern-gif';
-            const size = 130 + Math.random() * 160;
-            div.style.width = size + 'px';
-            div.style.height = size + 'px';
-            div.style.left = Math.random() * 105 - 15 + 'vw';
-            div.style.top = Math.random() * 80 + 'vh';
-            div.style.animationDuration = (6 + Math.random() * 13) + 's';
-            div.style.animationDelay = '-' + Math.random() * 10 + 's';
-
-            const img = document.createElement('img');
-            img.src = MODERN_FAMILY_GIF;
-            div.appendChild(img);
-            container.appendChild(div);
-        }
-
-        function spawnCats(num) {
-            for (let i = 0; i < num; i++) {
-                setTimeout(() => Math.random() > 0.6 ? createModernGif() : createCat(), i * 25);
-            }
-        }
-
-        function confettiBurst() {
-            const colors = ['#ff6b6b','#4ecdc4','#45b7d1','#96ceb4','#ffe66d'];
-            for (let i = 0; i < 160; i++) {
-                const c = document.createElement('div');
-                c.className = 'confetti';
-                c.style.left = Math.random() * 100 + 'vw';
-                c.style.background = colors[Math.floor(Math.random()*colors.length)];
-                c.style.width = (7 + Math.random()*14) + 'px';
-                c.style.height = c.style.width;
-                c.style.animationDuration = (2.8 + Math.random()*4) + 's';
-                c.style.animationDelay = '-' + Math.random()*3 + 's';
-                document.body.appendChild(c);
-                setTimeout(() => c.remove(), 12000);
-            }
-        }
-
-        function triggerExplosion() {
-            const exp = document.getElementById('explosion');
-            const flash = document.getElementById('flash');
-            exp.style.display = 'block';
-            flash.style.transition = 'none';
-            flash.style.opacity = '0.95';
-            setTimeout(() => { flash.style.transition = 'opacity 0.8s'; flash.style.opacity = '0'; }, 80);
-
-            for (let i = 0; i < 75; i++) {
-                const f = document.createElement('div');
-                f.className = 'fire';
-                f.style.left = '50%'; f.style.top = '45%';
-                f.style.width = (18 + Math.random() * 55) + 'px';
-                f.style.height = f.style.width;
-                const dx = (Math.random() - 0.5) * 1000;
-                const dy = (Math.random() - 0.5) * 700 - 50;
-                f.style.setProperty('--x', dx + 'px');
-                f.style.setProperty('--y', dy + 'px');
-                f.style.animationDelay = Math.random() * 0.35 + 's';
-                exp.appendChild(f);
-                setTimeout(() => f.remove(), 2600);
-            }
-
-            let shakes = 0;
-            const shake = setInterval(() => {
-                document.body.style.transform = `translate(${Math.random()*28-14}px, ${Math.random()*28-14}px)`;
-                shakes++;
-                if (shakes > 16) {
-                    clearInterval(shake);
-                    document.body.style.transform = 'none';
-                }
-            }, 50);
-
-            setTimeout(() => {
-                document.getElementById('initial').style.display = 'none';
-                document.getElementById('post').style.display = 'flex';
-                exp.style.display = 'none';
-                spawnCats(28);
-                confettiBurst();
-                setInterval(confettiBurst, 2200);
-            }, 1700);
-        }
-
-        // Make sure button works
-        document.getElementById('openBtn').addEventListener('click', triggerExplosion);
-        document.getElementById('moreBtn').addEventListener('click', () => { spawnCats(22); confettiBurst(); });
-    </script>
-</body>
-</html>
+            if (catCount > 
