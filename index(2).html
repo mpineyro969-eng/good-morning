@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Good Morning</title>
+<style>
+html,body{margin:0;height:100%;overflow:hidden;background:#c8f7c5;font-family:Arial,sans-serif}
+#intro,#main{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#main{display:none;justify-content:flex-start;overflow:auto}
+h1{margin:18px;text-align:center}
+button{padding:18px 30px;font-size:22px;border:none;border-radius:14px;background:#222;color:#fff;cursor:pointer}
+#flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none}
+.grid{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;padding:120px 20px 30px}
+.cat{width:min(250px,44vw);border-radius:10px;animation:bob 1.8s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.shake{animation:shake .55s}
+@keyframes shake{
+0%,100%{transform:translate(0)}
+20%{transform:translate(-8px,6px)}
+40%{transform:translate(8px,-6px)}
+60%{transform:translate(-8px,8px)}
+80%{transform:translate(8px,-4px)}
+}
+</style>
+</head>
+<body>
+<div id="flash"></div>
+<div id="intro">
+<h1 style="font-size:52px">Good Morning 🌸</h1>
+<p>Click for a surprise… hurry up 👀</p>
+<button id="btn">OPEN SURPRISE</button>
+</div>
+
+<div id="main">
+<h1 style="position:sticky;top:0;background:#c8f7c5;width:100%;padding:20px 0;z-index:2;font-size:44px">Hope you have a nice day ☀️</h1>
+<div class="grid" id="grid"></div>
+</div>
+
+<script>
+const btn=document.getElementById("btn");
+btn.onclick=()=>{
+document.body.classList.add("shake");
+const f=document.getElementById("flash");
+f.style.opacity=1;
+setTimeout(()=>{f.style.transition="opacity 1s";f.style.opacity=0;},80);
+setTimeout(()=>{
+intro.style.display="none";
+main.style.display="flex";
+const g=document.getElementById("grid");
+for(let i=0;i<24;i++){
+ const img=document.createElement("img");
+ img.src="./dance-party.gif?v=2";
+ img.className="cat";
+ img.style.animationDelay=(Math.random()*1.5)+"s";
+ g.appendChild(img);
+}
+},1200);
+}
+</script>
+</body>
+</html>
